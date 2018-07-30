@@ -1,0 +1,11 @@
+313e3ee10b2b14adf812ee4fd5c9c32c  zurich_config.xml
+469cd6f9bdd837e9d45bd6a42af24f25  zurich_population.xml.gz
+b3eab560464109303bbdec0402e90076  zurich_population_attributes.xml.gz
+2c5305c506f1277e4914a316c6d81dd5  zurich_facilities.xml.gz
+52420ade5a0d8ba9bbb717baa8bd96d6  zurich_network.xml.gz
+24399d2acf749e53dcad6fe2a741d479  zurich_households.xml.gz
+8dc3b686769ae5ced7926bf76a5111bc  zurich_household_attributes.xml.gz
+b65fe79d7643134f2ef7d775a9277c8b  zurich_transit_schedule.xml.gz
+0edc01a230da7f6ba1ce334f038da9b6  zurich_transit_vehicles.xml.gz
+e120aab4fa1f35c67a6fb2e305d234e1  zurich_make_config.json
+e1c915a106181d6d0832671c9bc81460  zurich_baseline.md5

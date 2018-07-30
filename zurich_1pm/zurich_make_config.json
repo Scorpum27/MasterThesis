@@ -1,0 +1,8 @@
+{
+  "baselinePath" : "switzerland_1pm",
+  "baselinePrefix" : "switzerland_",
+  "numberOfThreads" : 0,
+  "prefix" : "zurich_",
+  "outputPath" : "zurich_1pm",
+  "useMinimumNetworkCache" : false
+}
