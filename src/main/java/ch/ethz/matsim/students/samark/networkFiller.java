@@ -90,7 +90,7 @@ public static Network addGeometricLinkLengths(Network network) {
 }
 
 
-public static Network thin(Network network, int removalPercentage, boolean saveAsFile, String filepath) {
+public static Network thin(Network network, int XMax, int YMax, int removalPercentage, boolean saveAsFile) {
 	Network nwThin = network;
 	int networkNodesNumber = nwThin.getNodes().size();
 	int nodeAmountRemove = (int) (networkNodesNumber*removalPercentage/100);
@@ -118,12 +118,20 @@ public static Network thin(Network network, int removalPercentage, boolean saveA
 
 	}
 	if (saveAsFile) {
+		String filepath = "myOutput/network_"+XMax+"x"+YMax+"_Thin"+removalPercentage+".xml";
 		NetworkWriter nwT = new NetworkWriter(nwThin);
 		nwT.write(filepath);
-		System.out.println("Saved new network as "+filepath);
+		System.out.println("Saved new (thinned) network as "+filepath);
 	}
 	return nwThin;
 }
+
+public static void writeToFile(int XMax, int YMax, Network network) {
+	NetworkWriter nw = new NetworkWriter(network);
+	String filepath = "myOutput/network_"+XMax+"x"+YMax+".xml";
+	nw.write(filepath);
+}
+
 
 public static boolean exist(boolean containsKey) {
 	if (containsKey == true) {

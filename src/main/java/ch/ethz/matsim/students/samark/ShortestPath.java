@@ -4,6 +4,7 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.NetworkFactory;
+import org.matsim.api.core.v01.network.NetworkWriter;
 import org.matsim.api.core.v01.network.Node;
 import org.matsim.core.config.Config;
 import org.matsim.core.population.routes.NetworkRoute;
@@ -11,7 +12,7 @@ import org.matsim.core.scenario.ScenarioUtils;
 
 public class ShortestPath {
 
-	public static Network createNetwork(Config config, Network network, NetworkRoute networkRoute) {
+	public static Network createAndWriteNetwork(Config config, Network network, NetworkRoute networkRoute, int XMax, int YMax, int removalPercentage) {
 		Network shortestPathNetwork = ScenarioUtils.createScenario(config).getNetwork();
 		NetworkFactory shortestPathNetworkFactory = shortestPathNetwork.getFactory();
 		// Link tempLink = null;
@@ -31,6 +32,11 @@ public class ShortestPath {
 				shortestPathNetwork.addLink(tempLink);
 			}
 		}
+		
+		NetworkWriter nwShortestPath = new NetworkWriter(shortestPathNetwork);
+		String filepathShortestPath = "myOutput/network_"+XMax+"x"+YMax+"_Thin"+removalPercentage+"_ShortestPath.xml";
+		nwShortestPath.write(filepathShortestPath);
+		
 		return shortestPathNetwork;
 	}
 	
