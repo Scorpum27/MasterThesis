@@ -34,7 +34,7 @@ public class ShortestPath {
 		}
 		
 		NetworkWriter nwShortestPath = new NetworkWriter(shortestPathNetwork);
-		String filepathShortestPath = "myOutput/ShortestPath_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean_TransitLineNr"+lineNr+".xml";
+		String filepathShortestPath = "myInput/Networks/ShortestPath_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean_TransitLineNr"+lineNr+".xml";
 		nwShortestPath.write(filepathShortestPath);
 		
 		return shortestPathNetwork;

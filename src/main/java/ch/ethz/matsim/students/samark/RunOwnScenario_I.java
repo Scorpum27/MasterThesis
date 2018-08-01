@@ -15,6 +15,7 @@ import org.matsim.api.core.v01.network.NetworkWriter;
 import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.api.core.v01.population.PopulationFactory;
+import org.matsim.api.core.v01.population.PopulationWriter;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.population.routes.NetworkRoute;
@@ -38,6 +39,9 @@ import org.matsim.vehicles.VehiclesFactory;
 public class RunOwnScenario_I {
 
 
+	/**
+	 * @param args
+	 */
 	static public void main(String[] args) {
 		
 	// load & create configuration and scenario
@@ -46,13 +50,13 @@ public class RunOwnScenario_I {
 		Network network = scenario.getNetwork();								// NetworkFactory netFac = network.getFactory();
 
 	// load, create & process network	
-		final int XMax = 30;													// set network size in West-to-East
-		final int YMax = 30;													// set network size in South-to-North		
+		final int XMax = 50;													// set network size in West-to-East
+		final int YMax = 50;													// set network size in South-to-North		
 		network = networkFiller.fill(XMax, YMax, network);						// Fill up network with nodes between XMax and YMax to make a perfect node grid - These nodes can be used as potential stop locations in a perfect and uniform network.
 		networkFiller.writeToFile(XMax, YMax, network);
 		
 	// make a thinner and more realistic network by removing a percentage of nodes and its connecting links
-		int removalPercentage = 25;
+		int removalPercentage = 20;
 		boolean writeToFile = true;																			// if we want to keep 
 		Network networkThin = networkFiller.thin(network, XMax, YMax, removalPercentage, writeToFile);		// make new static method in networkFiller		
 		// TODO create loading function here to load a specific network that can be compared over several runs	
@@ -102,8 +106,7 @@ public class RunOwnScenario_I {
 				String vehicleFileLocation = "myInput/PT/vehicles.xml";
 			TransitRoute transitRoute = transitScheduleFactory.createTransitRoute(Id.create("transitRoute_"+lineNr, TransitRoute.class ), networkRoute, stopArray, defaultPtMode);
 			transitRoute = PublicTransportEngine.addDeparturesAndVehiclesToTransitRoute(scenario, transitSchedule, transitRoute, nDepartures, firstDepTime, departureSpacing, magicalBus, vehicleFileLocation); // Add (nDepartures) departures to TransitRoute
-			
-			
+						
 			// Build TransitLine from TrasitRoute
 			TransitLine transitLine = transitScheduleFactory.createTransitLine(Id.create("transitLine_"+lineNr, TransitLine.class));
 			transitLine.addRoute(transitRoute);
@@ -111,11 +114,6 @@ public class RunOwnScenario_I {
 			// Add new line to schedule
 			transitSchedule.addTransitLine(transitLine);			
 
-
-			
-			
-			
-			
 		}	// end of TransitLine creator loop
 
 		// Write TransitSchedule to corresponding file
@@ -125,8 +123,18 @@ public class RunOwnScenario_I {
 		
 	// create population by means of population factory
 		Population population = scenario.getPopulation();
-		PopulationFactory popFac = population.getFactory();
+		PopulationFactory populationFactory = population.getFactory();
 		
+		int nNewPeople = 100;
+		double networkSize = Math.sqrt(XMax*XMax+YMax*YMax);
+		String populationPrefix = "HundredTestPop";
+		
+		DemandEngine demandEngine = new DemandEngine();
+		System.out.println("networkSize is: "+networkSize);
+		demandEngine.createNewDemand(scenario, networkThin, networkSize, nNewPeople, populationPrefix);
+
+		PopulationWriter populationWriter = new PopulationWriter(population);		// Write new population to new file >> change config after that to new network name!
+		populationWriter.write("myInput/Populations/plans"+nNewPeople+".xml");
 	
 	}
 

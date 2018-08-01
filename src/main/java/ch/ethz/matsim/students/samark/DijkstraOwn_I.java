@@ -7,6 +7,7 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.Node;
+import org.matsim.core.router.Dijkstra;
 
 public class DijkstraOwn_I {
 
@@ -120,5 +121,22 @@ public class DijkstraOwn_I {
 	   }
 	   return max;
    }
+
+   
+	public static Link makeSureExists(Link feasibleLinkSearcher, Link lastLink, Network network) {
+		Link outLink;
+		int iter = 0;
+		int tries = 100;
+		do{
+			outLink = feasibleLinkSearcher;
+			iter++;
+			if(iter==tries-1) {
+				System.out.println("No shortest path found. Sorry! Aborting search.");
+				return lastLink;
+			}
+		}while(DijkstraOwn_I.findShortestPath(network, lastLink.getToNode(), feasibleLinkSearcher.getFromNode()) == null && iter<tries);
+		// System.out.println(DijkstraOwn_I.findShortestPath(network, lastLink.getToNode(), feasibleLinkSearcher.getFromNode()).toString());
+		return outLink;
+	}
    
 }

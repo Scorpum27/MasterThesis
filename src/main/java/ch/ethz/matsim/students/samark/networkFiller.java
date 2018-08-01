@@ -118,7 +118,7 @@ public static Network thin(Network network, int XMax, int YMax, int removalPerce
 
 	}
 	if (saveAsFile) {
-		String filepath = "myOutput/Network_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean.xml";
+		String filepath = "myInput/Networks/Network_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean.xml";
 		NetworkWriter nwT = new NetworkWriter(nwThin);
 		nwT.write(filepath);
 		System.out.println("Saved new (thinned) network as "+filepath);
@@ -136,7 +136,7 @@ public static Network thin(Network network, int XMax, int YMax, int removalPerce
 
 public static void writeToFile(int XMax, int YMax, Network network) {
 	NetworkWriter nw = new NetworkWriter(network);
-	String filepath = "myOutput/Network_"+XMax+"x"+YMax+"_RAW.xml";
+	String filepath = "myInput/Networks/Network_"+XMax+"x"+YMax+"_RAW.xml";
 	nw.write(filepath);
 }
 
