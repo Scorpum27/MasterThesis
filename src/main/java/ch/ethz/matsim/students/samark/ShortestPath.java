@@ -12,7 +12,7 @@ import org.matsim.core.scenario.ScenarioUtils;
 
 public class ShortestPath {
 
-	public static Network createAndWriteNetwork(Config config, Network network, NetworkRoute networkRoute, int XMax, int YMax, int removalPercentage) {
+	public static Network createAndWriteNetwork(Config config, Network network, NetworkRoute networkRoute, int lineNr, int XMax, int YMax, int removalPercentage) {
 		Network shortestPathNetwork = ScenarioUtils.createScenario(config).getNetwork();
 		NetworkFactory shortestPathNetworkFactory = shortestPathNetwork.getFactory();
 		// Link tempLink = null;
@@ -34,7 +34,7 @@ public class ShortestPath {
 		}
 		
 		NetworkWriter nwShortestPath = new NetworkWriter(shortestPathNetwork);
-		String filepathShortestPath = "myOutput/network_"+XMax+"x"+YMax+"_Thin"+removalPercentage+"_ShortestPath.xml";
+		String filepathShortestPath = "myOutput/ShortestPath_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean_TransitLineNr"+lineNr+".xml";
 		nwShortestPath.write(filepathShortestPath);
 		
 		return shortestPathNetwork;

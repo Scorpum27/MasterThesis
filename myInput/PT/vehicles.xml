@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<vehicleDefinitions xmlns="http://www.matsim.org/files/dtd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.matsim.org/files/dtd http://www.matsim.org/files/dtd/vehicleDefinitions_v1.0.xsd">
+	<vehicleType id="MagicalBus">
+		<capacity>
+			<seats persons="15"/>
+			<standingRoom persons="15"/>
+		</capacity>
+		<length meter="15.0"/>
+		<width meter="1.0"/>
+		<maximumVelocity meterPerSecond="27.77777777777778"/>
+		<accessTime secondsPerPerson="1.0"/>
+		<egressTime secondsPerPerson="1.0"/>
+		<doorOperation mode="serial"/>
+		<passengerCarEquivalents pce="1.0"/>
+	</vehicleType>
+	<vehicle id="transitRoute_0_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_0_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_1_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_2_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_3_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_4_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_5_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_6_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_7_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_8_MagicalBus_9" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_0" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_1" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_2" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_3" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_4" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_5" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_6" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_7" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_8" type="MagicalBus"/>
+	<vehicle id="transitRoute_9_MagicalBus_9" type="MagicalBus"/>
+</vehicleDefinitions>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE network SYSTEM "http://www.matsim.org/files/dtd/network_v2.dtd">
+<network>
+
+<!-- ====================================================================== -->
+
+	<nodes>
+		<node id="330" x="30.0" y="11.0" >
+		</node>
+		<node id="359" x="29.0" y="12.0" >
+		</node>
+		<node id="360" x="30.0" y="12.0" >
+		</node>
+		<node id="379" x="19.0" y="13.0" >
+		</node>
+		<node id="380" x="20.0" y="13.0" >
+		</node>
+		<node id="381" x="21.0" y="13.0" >
+		</node>
+		<node id="382" x="22.0" y="13.0" >
+		</node>
+		<node id="383" x="23.0" y="13.0" >
+		</node>
+		<node id="384" x="24.0" y="13.0" >
+		</node>
+		<node id="385" x="25.0" y="13.0" >
+		</node>
+		<node id="386" x="26.0" y="13.0" >
+		</node>
+		<node id="387" x="27.0" y="13.0" >
+		</node>
+		<node id="388" x="28.0" y="13.0" >
+		</node>
+		<node id="389" x="29.0" y="13.0" >
+		</node>
+		<node id="407" x="17.0" y="14.0" >
+		</node>
+		<node id="408" x="18.0" y="14.0" >
+		</node>
+		<node id="409" x="19.0" y="14.0" >
+		</node>
+		<node id="433" x="13.0" y="15.0" >
+		</node>
+		<node id="434" x="14.0" y="15.0" >
+		</node>
+		<node id="435" x="15.0" y="15.0" >
+		</node>
+		<node id="436" x="16.0" y="15.0" >
+		</node>
+		<node id="437" x="17.0" y="15.0" >
+		</node>
+		<node id="463" x="13.0" y="16.0" >
+		</node>
+		<node id="492" x="12.0" y="17.0" >
+		</node>
+		<node id="493" x="13.0" y="17.0" >
+		</node>
+		<node id="522" x="12.0" y="18.0" >
+		</node>
+		<node id="550" x="10.0" y="19.0" >
+		</node>
+		<node id="551" x="11.0" y="19.0" >
+		</node>
+		<node id="552" x="12.0" y="19.0" >
+		</node>
+		<node id="580" x="10.0" y="20.0" >
+		</node>
+		<node id="610" x="10.0" y="21.0" >
+		</node>
+		<node id="639" x="9.0" y="22.0" >
+		</node>
+		<node id="640" x="10.0" y="22.0" >
+		</node>
+		<node id="669" x="9.0" y="23.0" >
+		</node>
+		<node id="699" x="9.0" y="24.0" >
+		</node>
+		<node id="729" x="9.0" y="25.0" >
+		</node>
+	</nodes>
+
+<!-- ====================================================================== -->
+
+	<links capperiod="01:00:00" effectivecellsize="7.5" effectivelanewidth="3.75">
+		<link id="330_360" from="330" to="360" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="359_389" from="359" to="389" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="360_359" from="360" to="359" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="379_409" from="379" to="409" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="380_379" from="380" to="379" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="381_380" from="381" to="380" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="382_381" from="382" to="381" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="383_382" from="383" to="382" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="384_383" from="384" to="383" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="385_384" from="385" to="384" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="386_385" from="386" to="385" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="387_386" from="387" to="386" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="388_387" from="388" to="387" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="389_388" from="389" to="388" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="407_437" from="407" to="437" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="408_407" from="408" to="407" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="409_408" from="409" to="408" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="433_463" from="433" to="463" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="434_433" from="434" to="433" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="435_434" from="435" to="434" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="436_435" from="436" to="435" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="437_436" from="437" to="436" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="463_493" from="463" to="493" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="492_522" from="492" to="522" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="493_492" from="493" to="492" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="522_552" from="522" to="552" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="550_580" from="550" to="580" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="551_550" from="551" to="550" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="552_551" from="552" to="551" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="580_610" from="580" to="610" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="610_640" from="610" to="640" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="639_669" from="639" to="669" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="640_639" from="640" to="639" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="669_699" from="669" to="699" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+		<link id="699_729" from="699" to="729" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+		</link>
+	</links>
+
+<!-- ====================================================================== -->
+
+</network>

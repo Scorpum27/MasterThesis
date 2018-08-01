@@ -20,6 +20,13 @@ import org.matsim.pt.transitSchedule.api.TransitSchedule;
 import org.matsim.pt.transitSchedule.api.TransitScheduleFactory;
 import org.matsim.pt.transitSchedule.api.TransitScheduleWriter;
 import org.matsim.pt.transitSchedule.api.TransitStopFacility;
+import org.matsim.vehicles.Vehicle;
+import org.matsim.vehicles.VehicleCapacity;
+import org.matsim.vehicles.VehicleReaderV1;
+import org.matsim.vehicles.VehicleType;
+import org.matsim.vehicles.VehicleWriterV1;
+import org.matsim.vehicles.Vehicles;
+import org.matsim.vehicles.VehiclesFactory;
 
 public class PublicTransportEngine {
 	
@@ -50,15 +57,51 @@ public class PublicTransportEngine {
 		return stopArray;
 	}
 
-	public static TransitRoute addDeparturesToTransitRoute(TransitSchedule transitSchedule, TransitRoute transitRoute, int nDepartures, double firstDepTime, double departureSpacing) {
+	public static TransitRoute addDeparturesAndVehiclesToTransitRoute(Scenario scenario, TransitSchedule transitSchedule, TransitRoute transitRoute, int nDepartures, double firstDepTime, double departureSpacing, VehicleType vehicleType, String vehicleFileLocation) {
 		double depTimeOffset = 0;
 		for (int d=0; d<nDepartures; d++) {
 			depTimeOffset = d*15*60;
 			Departure departure = transitSchedule.getFactory().createDeparture(Id.create(transitRoute.getId().toString()+"_Departure_"+d+"_"+(firstDepTime+depTimeOffset), Departure.class), firstDepTime+depTimeOffset); // TODO specify departureX with better name
+			Vehicle vehicle = scenario.getVehicles().getFactory().createVehicle(Id.createVehicleId(transitRoute.getId().toString()+"_"+vehicleType.getId().toString()+"_"+d), vehicleType);
+			// System.out.println(scenario.getVehicles().getVehicles().containsKey(vehicle.getId()));
+			if (scenario.getVehicles().getVehicles().containsKey(vehicle.getId())) {
+				scenario.getVehicles().removeVehicle(vehicle.getId());
+			}
+			scenario.getVehicles().addVehicle(vehicle);
+			departure.setVehicleId(vehicle.getId());
 			transitRoute.addDeparture(departure);
 		}
+		VehicleWriterV1 vehicleWriter = new VehicleWriterV1(scenario.getVehicles());
+		vehicleWriter.writeFile(vehicleFileLocation);
+		
 		return transitRoute;
 	}
+	
+	public static void createNewVehicleType(Scenario scenario, String vehicleTypeName, double length, double maxVelocity, int seats, int standingRoom) {
+		Vehicles vehicles = scenario.getVehicles();
+		VehiclesFactory vehiclesFactory = vehicles.getFactory();
+		VehicleType vehicleType = vehiclesFactory.createVehicleType(Id.create(vehicleTypeName, VehicleType.class));
+		vehicleType.setLength(length);
+		vehicleType.setMaximumVelocity(maxVelocity);
+		VehicleCapacity vehicleCapacity = vehiclesFactory.createVehicleCapacity();
+		vehicleCapacity.setSeats(seats);
+		vehicleCapacity.setStandingRoom(standingRoom);
+		vehicleType.setCapacity(vehicleCapacity);
+		vehicles.addVehicleType(vehicleType);
+		// System.out.println("New vehicle type is: "+vehicleType.getId().toString());
+	}
+	
+	
+	
+	/*
+	public static ArrayList<Id<Vehicle>> generateNewVehicles(int nDepartures, VehicleType vehicleType){
+		
+		ArrayList<Id<Vehicle>> arrVehicleIDs = new ArrayList<Id<Vehicle>>(nDepartures);
+		for (int n=0; n<nDepartures; n++) {
+			arrVehicleIDs(n) = 
+		}
+		return arrVehicleIDs;
+	}*/
 	
 
 }

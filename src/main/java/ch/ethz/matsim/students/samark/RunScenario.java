@@ -37,7 +37,7 @@ static public void main(String[] args) {
 		Scenario scenario = ScenarioUtils.createScenario(config);
 		scenario.getPopulation().getFactory().getRouteFactories().setRouteFactory(DefaultEnrichedTransitRoute.class,
 				new DefaultEnrichedTransitRouteFactory());
-		ScenarioUtils.loadScenario(scenario);
+		ScenarioUtils.loadScenario(scenario);							// do I have to load scenario here due to having set the new route factory or would I have to load anyways
 		
 		/*new TransitScheduleReader(scenario).readFile(filename);
 		new TransitScheduleWriter(scenario.getTransitSchedule()).writeFile(filename);
