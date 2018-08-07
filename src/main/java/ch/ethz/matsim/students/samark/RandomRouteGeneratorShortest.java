@@ -1,15 +1,11 @@
 package ch.ethz.matsim.students.samark;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.matsim.api.core.v01.Id;
-import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.Node;
-import org.matsim.core.population.routes.NetworkRoute;
-import org.matsim.core.router.util.LeastCostPathCalculator.Path;
 
 public class RandomRouteGeneratorShortest {
 

@@ -7,7 +7,6 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.Node;
-import org.matsim.core.router.Dijkstra;
 
 public class DijkstraOwn_I {
 
@@ -18,6 +17,7 @@ public class DijkstraOwn_I {
 	    int maxNodeNr = findHighestNode(network);
 		int[] nodeLocation = new int[maxNodeNr+1];
 
+		@SuppressWarnings("unchecked")
 		Id<Node>[] nodeIDs = (Id<Node>[]) Array.newInstance(Id.createNodeId("").getClass(), network.getNodes().size());
 		nodeIDs = network.getNodes().keySet().toArray(nodeIDs);
 		Node[] nodes = (Node[]) Array.newInstance(network.getFactory().createNode(null, null).getClass(), network.getNodes().size());		
@@ -29,6 +29,7 @@ public class DijkstraOwn_I {
 			kNode++;
 		}
 		
+		@SuppressWarnings("unchecked")
 		Id<Link>[] linkIDs = (Id<Link>[]) Array.newInstance(Id.createLinkId("").getClass(), network.getLinks().size());
 		linkIDs = network.getLinks().keySet().toArray(linkIDs);
 		Link[] links = (Link[]) Array.newInstance(network.getFactory().createLink(Id.createLinkId("testLink"), startNode, endNode).getClass(), network.getLinks().size());
