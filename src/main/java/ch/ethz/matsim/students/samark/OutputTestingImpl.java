@@ -29,6 +29,7 @@ public class OutputTestingImpl {
 				
 		Network dominantFacilities = scenario.getNetwork();
 		NetworkFactory dominantFacilitiesFactory = dominantFacilities.getFactory();
+		Node facilityNode;
 		
 		for (Id<Link> linkIDiter : customLinkMap.keySet()) {
 			Node fromNode = stongestLinksFactory.createNode(oldNetwork.getLinks().get(linkIDiter).getFromNode().getId(), oldNetwork.getLinks().get(linkIDiter).getFromNode().getCoord());
@@ -41,8 +42,14 @@ public class OutputTestingImpl {
 			}
 			Link linkBetweenNodes = stongestLinksFactory.createLink(linkIDiter, fromNode, toNode);
 			strongestLinksNetwork.addLink(linkBetweenNodes);
-			Node facilityNode = dominantFacilitiesFactory.createNode(Id.createNodeId("FacilityCoordNodeOfLink"+linkIDiter.toString()), 
+			if (customLinkMap.get(linkIDiter).dominantStopFacility==null) {
+				facilityNode = dominantFacilitiesFactory.createNode(Id.createNodeId("FacilityCoordNodeOfLink"+linkIDiter.toString()), 
+						oldNetwork.getLinks().get(linkIDiter).getFromNode().getCoord());
+			}
+			else {
+				facilityNode = dominantFacilitiesFactory.createNode(Id.createNodeId("FacilityCoordNodeOfLink"+linkIDiter.toString()), 
 																						customLinkMap.get(linkIDiter).dominantStopFacility.getCoord());
+			}
 			dominantFacilities.addNode(facilityNode);
 		}
 			
