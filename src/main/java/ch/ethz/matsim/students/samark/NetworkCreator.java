@@ -8,7 +8,6 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
-import org.matsim.api.core.v01.network.Node;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.population.routes.NetworkRoute;
@@ -32,40 +31,58 @@ public class NetworkCreator {
 		
 		TransitSchedule transitSchedule = scenario.getTransitSchedule();
 		
-		int iterationToRead = 400;				// Which iteration to read from output of inner loop simulation
-		int nMostFrequentLinks = 80;
 		Coord zurich_NetworkCenterCoord = new Coord(2683099.3305, 1247442.9076);
 		double metroCityRadius = 1563.7356;
+		//int roundedRadius = (int) Math.round(metroCityRadius); // delete this if code works --> not needed anymore
+		
+		// Initialize a customLinkMap
+		Map<Id<Link>,CustomLinkAttributes> customLinkMap = NetworkCreatorImpl.createCustomLinkMap(network, null);
+		
+		// Run event handler to count movements on each stop facility and add traffic data to customLinkMap
+		int iterationToRead = 400;				// Which iteration to read from output of inner loop simulation
+		Map<Id<Link>,CustomLinkAttributes> processedLinkMap = NetworkCreatorImpl.runPTStopTrafficScanner(new PT_StopTrafficCounter(), customLinkMap, iterationToRead,
+				network, null);		
 		
 		// Select all metro candidate links by setting bounds on their location (distance from city center)
-			double minMetroRadiusFromCenter = metroCityRadius*0.00;
-			double maxMetroRadiusFromCenter = metroCityRadius*2.50;
-		Map<Id<Link>,CustomLinkAttributes> links_allMetroCandidates = NetworkCreatorImpl.findLinksWithinBounds_FromNetwork(network, new PT_StopTrafficCounter(), iterationToRead, zurich_NetworkCenterCoord, minMetroRadiusFromCenter, maxMetroRadiusFromCenter);	// find most frequent links from all network links
-		OutputTestingImpl.createNetworkFromCustomLinks(links_allMetroCandidates, network, "zurich_1pm/created_input/zurich_network_AllCandidateLinks.xml", "zurich_1pm/created_input/zurich_network_AllCandidateLinksFacilitiesNodes.xml"); // links are merged in one new network and facilities are placed as nodes in another new network
+		double minMetroRadiusFromCenter = metroCityRadius*0.00;
+		double maxMetroRadiusFromCenter = metroCityRadius*2.50;
+		Map<Id<Link>,CustomLinkAttributes> links_withinRadius = NetworkCreatorImpl.findLinksWithinBounds(processedLinkMap, network, zurich_NetworkCenterCoord, 
+				minMetroRadiusFromCenter, maxMetroRadiusFromCenter, "zurich_1pm/created_input/1_zurich_network_WithinRadius"+((int) Math.round(metroCityRadius))+".xml");	// find most frequent links from all network links
 		
 		// Find most frequent links from already event handled links list
-		Map<Id<Link>,CustomLinkAttributes> links_HighFrequency_fromList= NetworkCreatorImpl.findMostFrequentLinks_FromEventProcessedLinksMap(nMostFrequentLinks, links_allMetroCandidates);	// find most frequent links from all network links
+		int nMostFrequentLinks = 80;
+		Map<Id<Link>,CustomLinkAttributes> links_mostFrequentInRadius= NetworkCreatorImpl.findMostFrequentLinks(nMostFrequentLinks, links_withinRadius, network, null);	// find most frequent links from all network links
+		
 		// Set dominant transit stop facility in given network (from custom link list)
-		Map<Id<Link>,CustomLinkAttributes> links_HighFrequency_MainFacilitiesSet = NetworkCreatorImpl.setMainFacilities(transitSchedule, network, links_HighFrequency_fromList);		
-		// Write network to file
-		OutputTestingImpl.createNetworkFromCustomLinks(links_HighFrequency_MainFacilitiesSet, network, "zurich_1pm/created_input/zurich_network_StrongestCandidateLinks.xml", "zurich_1pm/created_input/zurich_network_StrongestLinksFacilitiesCoordNodes.xml"); // links are merged in one new network and facilities are placed as nodes in another new network		
+		Map<Id<Link>,CustomLinkAttributes> links_mostFrequentInRadiusMainFacilitiesSet = NetworkCreatorImpl.setMainFacilities(transitSchedule, network, 
+				links_mostFrequentInRadius, "zurich_1pm/created_input/2_zurich_network_MostFrequentInRadius.xml");		
 		
 		// Select all metro terminal candidates by setting bounds on their location (distance from city center)
 			double minTerminalRadiusFromCenter = metroCityRadius*0.67;
 			double maxTerminalRadiusFromCenter = metroCityRadius*2.00;
-		Map<Id<Link>,CustomLinkAttributes> links_MetroTerminalCandidates = NetworkCreatorImpl.findLinksWithinBounds_FromEventProcessedLinksMap(network, links_HighFrequency_MainFacilitiesSet, zurich_NetworkCenterCoord, minTerminalRadiusFromCenter, maxTerminalRadiusFromCenter);	// find most frequent links from all network links
-		OutputTestingImpl.createNetworkFromCustomLinks(links_MetroTerminalCandidates, network, "zurich_1pm/created_input/zurich_network_TerminalCandidateLinks.xml", "zurich_1pm/created_input/zurich_network_TerminalCandidateFacilitiesNodes.xml"); // links are merged in one new network and facilities are placed as nodes in another new network
+		Map<Id<Link>,CustomLinkAttributes> links_MetroTerminalCandidates = NetworkCreatorImpl.findLinksWithinBounds(links_mostFrequentInRadiusMainFacilitiesSet, network, 
+				zurich_NetworkCenterCoord, minTerminalRadiusFromCenter, maxTerminalRadiusFromCenter, "zurich_1pm/created_input/3_zurich_network_MetroTerminalCandidate.xml");	// find most frequent links from all network links
 		
-		double maxNewMetroLinkDistance = metroCityRadius;
-		Network newMetroNetwork = NetworkCreatorImpl.createMetroNetworkFromCandidates(links_HighFrequency_MainFacilitiesSet, maxNewMetroLinkDistance, network);
-		// Maybe add this argument to newMetroSchedule: TransitAttributes transitAttributes = new TransitAttributes([Vehicle, etc...]);
+		// Create a metro network from candidate links/stopFaiclities
+		double maxNewMetroLinkDistance = 1.30*metroCityRadius;
+		Network newMetroNetwork = NetworkCreatorImpl.createMetroNetworkFromCandidates(links_mostFrequentInRadiusMainFacilitiesSet, maxNewMetroLinkDistance, network,
+				"zurich_1pm/created_input/4_zurich_network_MetroNetwork.xml");
+		// Conversions:
+			// get [new map] node from [old map] refLink: 			Node newMapNode = newNetwork.getNodes.get(Id.createNodeId("MetroNodeLinkRef_"+oldMapRefLink.toString()))
+			// get [old map] refLink from [new map] node:			Link oldMapLink = newMapNode.parse ...
+		
+		//---
 		int nRoutes = 5;
-		ArrayList<NetworkRoute> initialNetworkRoutes = NetworkCreatorImpl.createInitialRoutes(newMetroNetwork, links_MetroTerminalCandidates, nRoutes);
-		TransitSchedule newMetroSchedule = NetworkCreatorImpl.createNewTransitScheduleForNetwork(initialNetworkRoutes, newMetroNetwork);
+		double minTerminalDistance = 2.50*metroCityRadius ;
+		ArrayList<NetworkRoute> initialMetroRoutes = NetworkCreatorImpl.createInitialRoutes(newMetroNetwork, links_MetroTerminalCandidates, nRoutes,
+				minTerminalDistance, "zurich_1pm/created_input/5_zurich_network_MetroInitialRoutes.xml");
+
+		
+		/*TransitSchedule newMetroSchedule = NetworkCreatorImpl.createNewTransitScheduleForNetwork(initialNetworkRoutes, newMetroNetwork);
 			// include: create new vehicle type
 			// write all new stop facilities
 			// include: modify stop facilities
-			// include: introduce departures etc
+			// include: introduce departures etc.
 			Network fromNetwork;
 			Network toNetwork;
 		Network extendedNetwork = NetworkCreatorImpl.addNetworkPlusTransitSchedule(fromNetwork, toNetwork);
@@ -75,7 +92,7 @@ public class NetworkCreator {
 			// transitschedule:
 				// loop through all facilities and routes etc.
 				// merge vehicles explicitly with files etc.
-		
+		*/
 		
 	
 	

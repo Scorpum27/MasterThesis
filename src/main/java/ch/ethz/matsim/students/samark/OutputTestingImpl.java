@@ -20,7 +20,8 @@ import org.matsim.pt.transitSchedule.api.TransitStopFacility;
 
 public class OutputTestingImpl {
 
-	public static void createNetworkFromCustomLinks(Map<Id<Link>,CustomLinkAttributes> customLinkMap, Network oldNetwork, String linksString, String facilityNodesString) {
+	public static void createNetworkFromCustomLinks(Map<Id<Link>,CustomLinkAttributes> customLinkMap, Network oldNetwork, String linksString) {
+	// public static void createNetworkFromCustomLinks(Map<Id<Link>,CustomLinkAttributes> customLinkMap, Network oldNetwork, String linksString, String facilityNodesString) {	
 		
 		Config config = ConfigUtils.createConfig();
 		Scenario scenario = ScenarioUtils.createScenario(config);
@@ -56,11 +57,10 @@ public class OutputTestingImpl {
 		NetworkWriter networkWriterLinks = new NetworkWriter(strongestLinksNetwork);
 		networkWriterLinks.write(linksString);
 		
-		NetworkWriter networkWriterNodes = new NetworkWriter(strongestLinksNetwork);
-		networkWriterNodes.write(facilityNodesString);
+		// NetworkWriter networkWriterNodes = new NetworkWriter(dominantFacilities);
+		// networkWriterNodes.write(facilityNodesString);
 		
 	}
-	
 	
 	public static double getAverageTrafficOnLinks(Map<Id<Link>,CustomLinkAttributes> customLinkMap) {
 		double totalTraffic = 0.0;
@@ -79,6 +79,5 @@ public class OutputTestingImpl {
 		FacilitiesWriter facilitiesWriter = new FacilitiesWriter((ActivityFacilities) allTransitRouteStopFacilities); // !!! FAILS
 		facilitiesWriter.write("zurich_1pm/created_input/newFacilities.xml");
 	}
-
 	
 }
