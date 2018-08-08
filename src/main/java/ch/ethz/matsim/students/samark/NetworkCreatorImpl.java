@@ -339,8 +339,8 @@ public class NetworkCreatorImpl {
 				terminalNode2 = Id.createNodeId("MetroNodeLinkRef_" + randomTerminalLinkId2.toString());
 				safetyCounter++;
 				if (safetyCounter == iterLimit) {
-					System.out.println("Oops no second terminal node found after " + iterLimit
-							+ " iterations. Please lower minTerminalDistance!");
+					System.out.println("Oops no second terminal node found after " + iterLimit + " iterations. Trying to create next networkRoute. "
+							+ "Please lower minTerminalDistance!");
 					continue OuterNetworkRouteLoop;
 				}
 			} while (GeomDistance.calculate(newMetroNetwork.getNodes().get(terminalNode1).getCoord(),
@@ -354,11 +354,16 @@ public class NetworkCreatorImpl {
 			// Find Djikstra --> nodeList
 			ArrayList<Node> nodeList = DijkstraOwn_I.findShortestPathVirtualNetwork(newMetroNetwork, terminalNode1,
 					terminalNode2);
+			if (nodeList == null) {
+					System.out.println("Oops, no shortest path available. Trying to create next networkRoute. Please lower minTerminalDistance"
+							+ " ,or increase maxNewMetroLinkDistance (and - last - increase nMostFrequentLinks if required)!");
+					continue OuterNetworkRouteLoop;
+			}
 				//System.out.println("Node list of network route is: " + nodeList.toString());
 			List<Id<Link>> linkList = nodeListToNetworkLinkList(newMetroNetwork, nodeList);
 				//System.out.println("Link list of network route is: " + linkList.toString());
 			NetworkRoute networkRoute = RouteUtils.createNetworkRoute(linkList, newMetroNetwork);
-			System.out.println("The new networkRoute is: " + networkRoute.toString());
+			System.out.println("The new networkRoute is: [Length="+(networkRoute.getLinkIds().size()+2)+"] - " + networkRoute.toString());
 			networkRouteArray.add(networkRoute);
 		}
 
