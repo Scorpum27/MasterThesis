@@ -435,70 +435,8 @@ public class NetworkCreatorImpl {
 					linkList.add(l.getId());
 				}
 			}
-			//System.out.println("updated link list is: " + linkList.toString());
 		}
-		//System.out.println("final link list is: " + linkList.toString());
 		return linkList;
 	}
-
-	/*public static NetworkRoute nodeListToNetworkRoute(Network network, ArrayList<Node> nodeList) {
-		// ArrayList<Link> linkListArray = new ArrayList<Link>(nodeList.size());
-		List<Id<Link>> linkList = new ArrayList<Id<Link>>(nodeList.size() - 1);
-		for (int n = 0; n < (nodeList.size() - 1); n++) {
-			// System.out.println("n= "+n);
-			// System.out.println("nodeListSize= "+nodeList.size());
-			for (Link l : nodeList.get(n).getOutLinks().values()) {
-				if (l.getToNode() == nodeList.get(n + 1)) {
-					linkList.add(l.getId());
-					// System.out.println("Adding link "+l.getId().toString());
-					// System.out.println("Updated link list is "+linkList.toString());
-				}
-			}
-			System.out.println("updated link list is: " + linkList.toString());
-		}
-		System.out.println("final link list is: " + linkList.toString());
-		// NetworkRoute networkRoute = createNetworkRoute(linkList, network);
-
-		// LinkNetworkRouteFactory linkNetworkRouteFactory = new
-		// LinkNetworkRouteFactory();
-		List<Id<Link>> linksBetween = new ArrayList<Id<Link>>(linkList.size() - 2);
-		/*
-		 * for (int i = 0; i<linksBetween.size(); i++) {
-		 * linksBetween.add(linkList.get(i+1)); }
-		 * System.out.println("Between links are "+linksBetween.toString());
-		 */
-		/* // Id<Link> startLink = linkList.get(0);
-		// Id<Link> endLink = linkList.get(linkList.size()-1);
-		NetworkRoute nr = RouteUtils.createNetworkRoute(linkList, network);
-		System.out.println(nr.toString()); */
-		/*
-		 * Route networkRoute = linkNetworkRouteFactory.createRoute(startLink, endLink);
-		 * System.out.
-		 * println("Network Route IDs after initialization with start and end node: "
-		 * +networkRoute.getStartLinkId().toString());
-		 * networkRoute.setLinkIds(startLink, linksBetween, endLink);
-		 * System.out.println("Resulting network route link list is "+networkRoute.
-		 * getLinkIds().toString());
-		 * System.out.println("Network Route IDs after adding between nodes: "
-		 * +networkRoute.getLinkIds().toString()); return networkRoute;
-		 * 
-		 * //System.out.println("Resulting network route link list is "+networkRoute.
-		 * getLinkIds().toString());
-		 
-		return nr;
-	}*/
-
-	/* public static NetworkRoute createNetworkRoute(List<Id<Link>> routeLinkIds, Network network) {
-		LinkNetworkRouteFactory linkNetworkRouteFactory = new LinkNetworkRouteFactory();
-		List<Id<Link>> linksBetween = new ArrayList<Id<Link>>(routeLinkIds.size() - 2);
-		for (int i = 0; i < linksBetween.size(); i++) {
-			linksBetween.add(routeLinkIds.get(i + 1));
-		}
-		Id<Link> startLink = routeLinkIds.get(0);
-		Id<Link> endLink = routeLinkIds.get(routeLinkIds.size() - 1);
-		NetworkRoute networkRoute = (NetworkRoute) linkNetworkRouteFactory.createRoute(startLink, endLink);
-		networkRoute.setLinkIds(startLink, linksBetween, endLink);
-		return networkRoute;
-	}*/
 
 }
