@@ -5,6 +5,17 @@ public class Demo {
 	public static void main(String[] args) {
 		
 	
+	// %%%%% Network Converter Tester %%%%%	
+		
+		/*Id<Link> originalLinkRefId = Id.createLinkId("668_701");
+		Id<Node> metroNodeId = Id.createNodeId("MetroNodeLinkRef_" + originalLinkRefId.toString());
+		
+		Id<Link> originalLinkRefIdOut = NetworkCreatorImpl.orginalLinkFromMetroNode(metroNodeId);
+		System.out.println("Original Link Ref Id is "+originalLinkRefIdOut.toString());
+		Id<Node> metroNodeIdOut = NetworkCreatorImpl.metroNodeFromOriginalLink(originalLinkRefId);
+		System.out.println("Metro Node Id is "+metroNodeIdOut.toString());*/
+		
+		
 	// %%%%% Network Route Creator Tester %%%%%	
 		
 		/*Network routesNetwork = ScenarioUtils.createScenario(ConfigUtils.createConfig()).getNetwork();

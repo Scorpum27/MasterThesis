@@ -18,7 +18,7 @@ public class ShortestPath {
 		// Link tempLink = null;
 		// Node tempToNode = null;
 		// Node tempFromNode = null;
-		for (Id<Link> linkID : networkRoute.getLinkIds()) {
+		for (Id<Link> linkID : PublicTransportEngine.networkRouteToLinkIdList(networkRoute)) {
 			Node tempToNode = shortestPathNetworkFactory.createNode(network.getLinks().get(linkID).getToNode().getId(), network.getLinks().get(linkID).getToNode().getCoord());
 			Node tempFromNode = shortestPathNetworkFactory.createNode(network.getLinks().get(linkID).getFromNode().getId(), network.getLinks().get(linkID).getFromNode().getCoord());
 			Link tempLink = shortestPathNetworkFactory.createLink(network.getLinks().get(linkID).getId(), tempFromNode, tempToNode);

@@ -323,8 +323,9 @@ public class NetworkCreatorImpl {
 		// make nRoutes new routes
 		Id<Node> terminalNode1 = null;
 		Id<Node> terminalNode2 = null;
+		
 		OuterNetworkRouteLoop:
-		for (int routeNr = 0; routeNr < nRoutes; routeNr++) {
+		while (networkRouteArray.size() < nRoutes) {
 
 			// choose two random terminals
 			Id<Link> randomTerminalLinkId1 = getRandomLink(links_MetroTerminalCandidates.keySet());
@@ -367,41 +368,45 @@ public class NetworkCreatorImpl {
 			networkRouteArray.add(networkRoute);
 		}
 
+		// Doing already in main file --> Not necessary to do here again:
 		// Store all new networkRoutes in a separate network file for visualization
-		Network routesNetwork = ScenarioUtils.createScenario(ConfigUtils.createConfig()).getNetwork();
-		NetworkFactory networkFactory = routesNetwork.getFactory();
-		for (NetworkRoute nR : networkRouteArray) {
-			List<Id<Link>> routeLinkList = new ArrayList<Id<Link>>();
-			routeLinkList.add(nR.getStartLinkId());
-			routeLinkList.addAll(nR.getLinkIds());
-			routeLinkList.add(nR.getEndLinkId());
-			for (Id<Link> linkID : routeLinkList) {
-				Node tempToNode = networkFactory.createNode(newMetroNetwork.getLinks().get(linkID).getToNode().getId(),
-						newMetroNetwork.getLinks().get(linkID).getToNode().getCoord());
-				Node tempFromNode = networkFactory.createNode(
-						newMetroNetwork.getLinks().get(linkID).getFromNode().getId(),
-						newMetroNetwork.getLinks().get(linkID).getFromNode().getCoord());
-				Link tempLink = networkFactory.createLink(newMetroNetwork.getLinks().get(linkID).getId(), tempFromNode,
-						tempToNode);
-				if (routesNetwork.getNodes().containsKey(tempToNode.getId()) == false) {
-					routesNetwork.addNode(tempToNode);
-				}
-				if (routesNetwork.getNodes().containsKey(tempFromNode.getId()) == false) {
-					routesNetwork.addNode(tempFromNode);
-				}
-				if (routesNetwork.getLinks().containsKey(tempLink.getId()) == false) {
-					routesNetwork.addLink(tempLink);
-				}
-			}
-		}
-
-		NetworkWriter initialRoutesNetworkWriter = new NetworkWriter(routesNetwork);
-		String initialNetworkRoutes = fileName;
-		initialRoutesNetworkWriter.write(initialNetworkRoutes);
-
+		// --> networkRoutesToNetwork(networkRouteArray, newMetroNetwork, fileName);
+		
 		return networkRouteArray;
 	}
 
+	public static Network networkRoutesToNetwork(ArrayList<NetworkRoute> networkRoutes, Network metroNetwork, String fileName) {
+		// Store all new networkRoutes in a separate network file for visualization
+			Network routesNetwork = ScenarioUtils.createScenario(ConfigUtils.createConfig()).getNetwork();
+			NetworkFactory networkFactory = routesNetwork.getFactory();
+			for (NetworkRoute nR : networkRoutes) {
+				List<Id<Link>> routeLinkList = new ArrayList<Id<Link>>();
+				routeLinkList.add(nR.getStartLinkId());
+				routeLinkList.addAll(nR.getLinkIds());
+				routeLinkList.add(nR.getEndLinkId());
+				for (Id<Link> linkID : routeLinkList) {
+					Node tempToNode = networkFactory.createNode(metroNetwork.getLinks().get(linkID).getToNode().getId(),
+							metroNetwork.getLinks().get(linkID).getToNode().getCoord());
+					Node tempFromNode = networkFactory.createNode( metroNetwork.getLinks().get(linkID).getFromNode().getId(),
+							metroNetwork.getLinks().get(linkID).getFromNode().getCoord());
+					Link tempLink = networkFactory.createLink(metroNetwork.getLinks().get(linkID).getId(), tempFromNode, tempToNode);
+					if (routesNetwork.getNodes().containsKey(tempToNode.getId()) == false) {
+						routesNetwork.addNode(tempToNode);
+					}
+					if (routesNetwork.getNodes().containsKey(tempFromNode.getId()) == false) {
+						routesNetwork.addNode(tempFromNode);
+					}
+					if (routesNetwork.getLinks().containsKey(tempLink.getId()) == false) {
+						routesNetwork.addLink(tempLink);
+					}
+				}
+			}
+		NetworkWriter initialRoutesNetworkWriter = new NetworkWriter(routesNetwork);
+		initialRoutesNetworkWriter.write(fileName);
+		
+		return routesNetwork;
+	}
+	
 	public static Id<Link> getRandomLink(Set<Id<Link>> linkSet) {
 		Random rand = new Random();
 		int rInt = rand.nextInt(linkSet.size());
@@ -444,4 +449,44 @@ public class NetworkCreatorImpl {
 		return linkList;
 	}
 
+	public static Id<Node> metroNodeFromOriginalLink(Id<Link> originalLinkRefID) {
+		Id<Node> metroNodeId = Id.createNodeId("MetroNodeLinkRef_"+originalLinkRefID.toString());
+		return metroNodeId;
+	}
+	
+	public static Id<Link> orginalLinkFromMetroNode(Id<Node> metroNodeId){
+		String metroString = metroNodeId.toString();
+		Id<Link> originalLinkId = Id.createLinkId(metroString.substring(metroString.indexOf("_")+1));
+		return originalLinkId;
+	}
+	
+	public static ArrayList<Id<Link>> networkRouteToLinkIdList(NetworkRoute networkRoute){
+		ArrayList<Id<Link>> linkList = new ArrayList<Id<Link>>(networkRoute.getLinkIds().size()+2);
+		linkList.add(networkRoute.getStartLinkId());
+		linkList.addAll(networkRoute.getLinkIds());
+		linkList.add(networkRoute.getEndLinkId());
+		return linkList;
+	}
+
+	public static Network copyNetworkToNetwork(Network fromNetwork, Network toNetwork) {
+		NetworkFactory networkFactory = toNetwork.getFactory();
+		
+		for (Link link : fromNetwork.getLinks().values()) {
+			Node tempFromNode = networkFactory.createNode(Id.createNodeId(link.getFromNode().getId()), link.getFromNode().getCoord());
+			Node tempToNode = networkFactory.createNode(Id.createNodeId(link.getToNode().getId()), link.getToNode().getCoord());
+			Link tempLink = networkFactory.createLink(Id.createLinkId(link.getId()), tempFromNode, tempToNode);
+			if (toNetwork.getNodes().keySet().contains(tempFromNode.getId())==false) {
+				toNetwork.addNode(tempFromNode);
+			}
+			if (toNetwork.getNodes().keySet().contains(tempToNode.getId())==false) {
+				toNetwork.addNode(tempToNode);
+			}
+			if (toNetwork.getLinks().keySet().contains(tempLink.getId())==false) {
+				toNetwork.addLink(tempLink);
+			}
+		}
+		
+		return toNetwork;
+	}
+	
 }

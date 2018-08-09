@@ -31,7 +31,7 @@ public class PublicTransportEngine {
 		double accumulatedDrivingTime = 0;
 		Link lastLink = null;
 		
-		for (Id<Link> linkID : networkRoute.getLinkIds()) {
+		for (Id<Link> linkID : networkRouteToLinkIdList(networkRoute)) {
 			Link currentLink = network.getLinks().get(linkID);
 			TransitStopFacility transitStopFacility = transitScheduleFactory.createTransitStopFacility(Id.create("linkStop_"+linkID.toString(), TransitStopFacility.class), GeomDistance.coordBetweenNodes(currentLink.getFromNode(), currentLink.getToNode()), blocksLane);
 			transitStopFacility.setName("CenterLinkStop_"+linkID.toString());
@@ -85,7 +85,13 @@ public class PublicTransportEngine {
 		// System.out.println("New vehicle type is: "+vehicleType.getId().toString());
 	}
 	
-	
+	public static ArrayList<Id<Link>> networkRouteToLinkIdList(NetworkRoute networkRoute){
+		ArrayList<Id<Link>> linkList = new ArrayList<Id<Link>>(networkRoute.getLinkIds().size()+2);
+		linkList.add(networkRoute.getStartLinkId());
+		linkList.addAll(networkRoute.getLinkIds());
+		linkList.add(networkRoute.getEndLinkId());
+		return linkList;
+	}
 	
 	/*
 	public static ArrayList<Id<Vehicle>> generateNewVehicles(int nDepartures, VehicleType vehicleType){
