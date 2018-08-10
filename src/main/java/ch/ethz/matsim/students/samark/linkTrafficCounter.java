@@ -25,6 +25,5 @@ public class linkTrafficCounter implements LinkEnterEventHandler {
 		double oldTrafficCount = this.trafficMap.get(event.getLinkId());
 		trafficMap.put(event.getLinkId(), oldTrafficCount+1);
 	}
-	
 
 }
