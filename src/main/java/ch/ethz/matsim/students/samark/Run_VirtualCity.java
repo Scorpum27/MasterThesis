@@ -10,7 +10,6 @@ import org.matsim.api.core.v01.population.PopulationWriter;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.controler.Controler;
-import org.matsim.core.controler.OutputDirectoryHierarchy.OverwriteFileSetting;
 import org.matsim.core.population.routes.NetworkRoute;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.pt.transitSchedule.api.TransitLine;
@@ -36,14 +35,16 @@ public class Run_VirtualCity {
 		createCompleteScenario();
 	
 		// Configure and run MATSim
-		Config modConfig = VC_ConfigModifier.modifyConfig(ConfigUtils.createConfig()); 				//Alt:: Config modConfig = ConfigModifierVirtualCity.modifyConfigFromFile("myInput/zurich_config_original.xml");
-		modConfig.controler().setOverwriteFileSetting(OverwriteFileSetting.overwriteExistingFiles);			// makes sense to always use this
+		String networkName = "Network_50x50_20PercentLean.xml";
+		String populationName = "Plans10.xml";
+		String scheduleName = "Schedule.xml";
+		String vehiclesName = "Vehicles.xml";
+		Config modConfig = VC_ConfigModifier.modifyConfig(ConfigUtils.createConfig(), networkName, populationName, 
+				scheduleName, vehiclesName);  
 		Scenario scenario = ScenarioUtils.createScenario(modConfig);
-		ScenarioUtils.loadScenario(scenario);																// do I have to load scenario here due to having set the new route factory or would I have to load anyways
+		ScenarioUtils.loadScenario(scenario);															// do I have to load scenario here due to having set the new route factory or would I have to load anyways
 		Controler controler = new Controler(scenario);
 		controler.run();
-		
-		
 	}
 
 	
@@ -109,7 +110,7 @@ public class Run_VirtualCity {
 						double firstDepTime = 6.0*60*60;
 						double departureSpacing = 15*60;
 						VehicleType magicalBus = scenario.getVehicles().getVehicleTypes().get(Id.create(vehicleTypeName, VehicleType.class));
-						String vehicleFileLocation = "myInput/PT/vehicles.xml";
+						String vehicleFileLocation = "zurich_1pm/VirtualCity/Input/Generated_PT_Files/Vehicles.xml";
 					TransitRoute transitRoute = transitScheduleFactory.createTransitRoute(Id.create("transitRoute_"+lineNr, TransitRoute.class ), networkRoute, stopArray, defaultPtMode);
 					transitRoute = VC_PublicTransportImpl.addDeparturesAndVehiclesToTransitRoute(scenario, transitSchedule, transitRoute, nDepartures, firstDepTime, departureSpacing, magicalBus, vehicleFileLocation); // Add (nDepartures) departures to TransitRoute
 								
@@ -124,7 +125,7 @@ public class Run_VirtualCity {
 
 				// Write TransitSchedule to corresponding file
 				TransitScheduleWriter tsw = new TransitScheduleWriter(transitSchedule);
-				tsw.writeFile("myInput/PT/scheduleOne.xml");
+				tsw.writeFile("zurich_1pm/VirtualCity/Input/Generated_PT_Files/Schedule.xml");
 				
 				
 			// create population by means of population factory
@@ -139,7 +140,7 @@ public class Run_VirtualCity {
 				demandCreator.createNewDemand(scenario, networkThin, networkSize, nNewPeople, populationPrefix);
 
 				PopulationWriter populationWriter = new PopulationWriter(population);		// Write new population to new file >> change config after that to new network name!
-				populationWriter.write("myInput/Populations/plans"+nNewPeople+".xml");
+				populationWriter.write("zurich_1pm/VirtualCity/Input/Generated_Population/Plans"+nNewPeople+".xml");
 	}
 	
 }

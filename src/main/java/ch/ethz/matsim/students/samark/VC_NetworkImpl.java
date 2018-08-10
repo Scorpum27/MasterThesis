@@ -124,7 +124,7 @@ public class VC_NetworkImpl {
 
 		}
 		if (saveAsFile) {
-			String filepath = "myInput/Networks/Network_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean.xml";
+			String filepath = "zurich_1pm/VirtualCity/Input/Generated_Networks/Network_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean.xml";
 			NetworkWriter nwT = new NetworkWriter(nwThin);
 			nwT.write(filepath);
 			System.out.println("Saved new (thinned) network as "+filepath);
@@ -142,7 +142,7 @@ public class VC_NetworkImpl {
 
 	public static void writeToFile(int XMax, int YMax, Network network) {
 		NetworkWriter nw = new NetworkWriter(network);
-		String filepath = "myInput/Networks/Network_"+XMax+"x"+YMax+"_RAW.xml";
+		String filepath = "zurich_1pm/VirtualCity/Input/Generated_Networks/Network_"+XMax+"x"+YMax+"_RAW.xml";
 		nw.write(filepath);
 	}
 
@@ -209,7 +209,7 @@ public class VC_NetworkImpl {
 		}
 		
 		NetworkWriter nwShortestPath = new NetworkWriter(shortestPathNetwork);
-		String filepathShortestPath = "myInput/Networks/ShortestPath_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean_TransitLineNr"+lineNr+".xml";
+		String filepathShortestPath = "zurich_1pm/VirtualCity/Input/Generated_Networks/ShortestPath_"+XMax+"x"+YMax+"_"+removalPercentage+"PercentLean_TransitLineNr"+lineNr+".xml";
 		nwShortestPath.write(filepathShortestPath);
 		
 		return shortestPathNetwork;

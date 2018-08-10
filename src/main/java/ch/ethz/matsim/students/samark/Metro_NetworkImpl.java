@@ -25,13 +25,10 @@ import org.matsim.core.events.MatsimEventsReader;
 import org.matsim.core.population.routes.NetworkRoute;
 import org.matsim.core.population.routes.RouteUtils;
 import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.facilities.ActivityFacilities;
-import org.matsim.facilities.FacilitiesWriter;
 import org.matsim.pt.transitSchedule.api.TransitLine;
 import org.matsim.pt.transitSchedule.api.TransitRoute;
 import org.matsim.pt.transitSchedule.api.TransitRouteStop;
 import org.matsim.pt.transitSchedule.api.TransitSchedule;
-import org.matsim.pt.transitSchedule.api.TransitStopFacility;
 
 public class Metro_NetworkImpl {
 
@@ -144,7 +141,7 @@ public class Metro_NetworkImpl {
 		EventsManager myEventsManager = EventsUtils.createEventsManager();
 		myEventsManager.addHandler(myPT_StopTrafficCounter);
 		MatsimEventsReader reader = new MatsimEventsReader(myEventsManager);
-		String eventsFile = "zurich_1pm/SimulationOutputArchive/ITERS/it." + iterationToRead + "/" + iterationToRead
+		String eventsFile = "zurich_1pm/Zurich_1pm_SimulationOutput/ITERS/it." + iterationToRead + "/" + iterationToRead
 				+ ".events.xml.gz";
 		reader.readFile(eventsFile);
 
@@ -547,14 +544,14 @@ public class Metro_NetworkImpl {
 			return totalTraffic/customLinkMap.size();
 		}
 		
-		// this does not work due to casting failure from stop facility to activity facility
-		public static void allFeasibleStopFacilitiesToFile(Map<Id<Link>,CustomLinkAttributes> mostFeasibleLinks) {
+		// XXX !!! CAUTION !!! XXX this does not work due to casting failure from stop facility to activity facility
+		/*public static void allFeasibleStopFacilitiesToFile(Map<Id<Link>,CustomLinkAttributes> mostFeasibleLinks) {
 			List<TransitStopFacility> allTransitRouteStopFacilities = new ArrayList<TransitStopFacility>(mostFeasibleLinks.size());
 			for (Id<Link> linkID : mostFeasibleLinks.keySet()) {
 				allTransitRouteStopFacilities.add(mostFeasibleLinks.get(linkID).dominantStopFacility);
 			}
 			FacilitiesWriter facilitiesWriter = new FacilitiesWriter((ActivityFacilities) allTransitRouteStopFacilities); // !!! FAILS
-			facilitiesWriter.write("zurich_1pm/created_input/newFacilities.xml");
-		}
+			facilitiesWriter.write("zurich_1pm/Metro/Input/Generated_PT_Files/newFacilities.xml");
+		}*/
 	
 }
