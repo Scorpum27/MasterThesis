@@ -1,0 +1,319 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newpage
+\section{Evolutionary Transport Network Planning}
+\label{ch:evo}
+
+\begin{itemize}
+	\item Genetic algorithms as a tool for transport planning: see literature for history
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Vaguely:
+Talk about the use of genetic algorithms here.\\
+Explain precisely implementation of GA's in past works and point out the advantages.\\
+Explain therefore why a genetic algorithm was used here.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bi-level optimization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{itemize}
+	\item Say what bi-level means (frequency and routes) and refer to the diagram at the beginning showing 4 or 5 steps transportation planning
+	\item Talk about the advantages of bi-level planning and why we are doing it.
+	\item refer to metro and say that frequency can be anything between 3-30min
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parallel network approach}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{itemize}
+	\item 
+	\item Elitism: make sure to note
+	\item Explain parallel network approach and compare to single network optimization
+	\item refer to advantages (consideration of several local optima that may develop in parallel, higher diversity among good networks; much more diversity also in crossing the networks and introduction of also profitable subsystems in addition to purely random modifications; profitability of a line is not isolated but rather in the context of the entire network which is particularly important for a more global PT provider instead of single line bus operators) and disadvantages (computational inefficiency) of parallel network approach and compare to Minibus contribution of Manser. State that parallel network approach is also new in that respect.
+	\item say that the minibus contribution is not used bc minibus has its limitations (see Manser/Neumann), bc want to try new parallel network approach for its advantages, state that entire code is new from scratch
+	\item Explain comparability and compatibility of single networks when merging them etc (may refer to Vittins)
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Network Fitness}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The utility, so called fitness value, of a single network is relative to the designing entity and its incentives. Generally, a public infrastructure project compares the overall utility balance over its lifetime of all entities involved to a reference case without the project or with an alternative variant. The individual participants may include the following:
+
+\begin{itemize}
+	\item Public bodies such as the state, city or province (Switzerland: "Kanton"), who usually contribute a large share of resources for the construction of infrastructure and may fully cover or subsidize the operation of public transportation services thereon.
+	\item Commercial transportation service providers operating transportation networks, but who may also participate in an investments for infrastructure development. It is common that these operators provide services autonomously under well-defined public requirements and subsidies. The provider of transportation may also be entirely or partly state-owned and therefore -governed.
+	\item The users, who pay in the form of tickets or tax to make use of transportation infrastructure and services.
+\end{itemize}
+
+The utility balance is based on a cost-benefit analysis performed for every participant of the system summing up their expenses (cost) and earnings (benefit) induced by a specific project variant. As described below, the latter may also include not directly monetary (dis-)utilities such as noise or travel time savings, which are then converted into a monetary value analogously to the MATSim scoring function. Totaling the costs and benefits of all individual participants yields the overall utility balance of a project. As mentioned above, a public authority will consider the latter overall balance during the evaluation of an infrastructure project as it is interested in the overall utility and - finally - the overall economic performance of its system. In contrast, a commercial provider of public transportation services and infrastructure seeks maximum returns by balancing its revenues directly against its expenses without considering the other participants such as the users of their services. This is therefore a sub-balance of the overall cost-benefit analysis, which can be assessed separately.
+While the developed planning tool can be applied generically to both, a public planner's or a commercial provider's design problem, it has been chosen for this work to consider the overall utility approach (public planner) as a baseline scenario as it includes a more comprehensive evaluation of the numerous and diverse impacts of a project. In an advanced step, the effects on the network design of concentrating on the sub-balance of a commercial provider can be investigated specifically.
+
+The utility function for a public transport project, which is interchangeable with the expression of fitness function, is derived from the Swiss Standard for the Cost-Benefit Analysis of Road Traffic \cite{VSS_Norm_641820_2006Own} and is composed as follows. The individual contributions as well as the required data from the traffic simulation are elaborated in more detail farther below. Note that the possible transport modes are split into three groups: the public transport (PT) mode, the car (MPT) mode, and the "other" modes. The latter basically include walk and bike.
+
+\subsubsection{Cost indicators}\mbox{}\\[-5ex]
+\begin{itemize}
+	\item \textit{Construction costs:} Initial investment minus residual values.
+	\item \textit{Replacement costs:} Investments during the lifespan of the infrastructure to ensure its integrity normally by means of replacing components. For practical reasons, the residual values above are assumed to balance the replacement costs below. Therefore, neither of them is assessed explicitly.
+	\item \textit{Land costs:} The cost for the land claimed for new infrastructure. For the metro application, the acquisition of underground terrain is generally regarded as free from land cost. Overground metro links, however, underly the market price for the corresponding land.
+	\item \textit{Maintenance and repair costs}
+	\item \textit{Operating costs:} Costs of operating the infrastructure including i.a. vehicle costs and employee salaries
+	\item \textit{Impacts on MPT:} Due to the improvement of the PT infrastructure some agents will shift in the modal share from MPT and other to PT. While this effect cuts some of the tax revenues for fuel and road usage, the VAT earnings on PT ticket purchases are increased. In the overall balance, however, these terms are obsolete as - for instance - more VAT expenses by users are compensated directly by the same VAT earnings by the state.
+	\item \textit{PT user costs:} User expenses for transportation services in the form of tickets. These costs are of significance for the sub-balance of the users while in the overall utility calculation the pt user cost is shifted directly from pt user to pt operator and yields zero total utility.
+	
+\end{itemize}
+
+\subsubsection{Benefit indicators}\mbox{}\\[-5ex]
+\begin{itemize}
+	\item \textit{External cost changes:} External costs include indirect effects induced by providing and using transportation infrastructure and services. These cover accidents, noise, air pollution, external energy consumption cost due to the operation of the infrastructure, climate, soil sealing and landscape deterioration. Due to the shift to PT, the MPT share of external costs somewhat decreases, while the external costs of PT increases to a presumably lesser extent.
+	\item \textit{Vehicle operating cost savings:} The cost of operating a vehicle including the variable costs of mileage specific vehicle depreciation, tires, oil, maintenance, repairs and fuel costs (without fuel taxes). Note that in the overall balance fuel tax and road tolls must not be considered explicitly as they shift from road user to state (or road operator). Thus, the tax and toll must be subtracted from the user's overall ("generalized") vehicle costs.
+	\item \textit{Travel time gains:} The new overall travel times in the metro scenario of MPT and PT users are compared to those of the reference scenario. The (monetary) utility of the time savings results from multiplying the time gains by an empirically assessed factor as in \cite{VSS_Norm_KNA6418227_2009Own}, that differs between PT (23.29 CHF/h) and MPT (14.43 CHF/h). Note that the values are averaged over all trip purposes. The travel time gains parameter can also be categorized as external cost savings and may have a negative nature if travel times increase. Congestion may play a substantial role regarding travel time gains, where MATSim has the ability to register such effects within its traffic simulations. 
+	\item \textit{Net benefit of induced traffic:} The new services offered may induce additional traffic demand representing a net economic benefit. However, given the fixed daily goals and locations of the agents, the latter effect cannot well be displayed by MATSim as only the means of transportation are changed within the plans, but not more plans are created overall. Therefore, the net benefit of the additional traffic itself is neglected. This is independent from induced traffic by population growth, which is discussed in \ref{subsub:simData}.
+\end{itemize}
+
+\subsubsection{Other important utility factors for sub-balances}\mbox{}\\
+
+\paragraph{PT fare system}
+	Participants of the system can be regarded in isolated manner and a utility sub-balance can be set-up for each of them. Not taking into account psychological effects in choice making, every individual agent tries to maximize their overall utility and will make travel choices accordingly. A public transportation provider, which is not or only partly state-owned, pursues similar economical incentives of maximizing own profits. The dominant cost/benefit parameter governing the interaction between these two participants is given by the user's cost for transportation in the form of a ticket.
+\paragraph{Subsidies}
+	Subsidies from state to PT services provider are another significant parameter 	examining the sub-balances of these two participants. A state authority (from entire state or province to small commune) may provide own resources for the financing of an unprofitable route or service that the PT provider would not offer otherwise when seeking maximum profit. Subsidies can cover a very substantial part of a provider's revenue and are granted by the state if it can make out a positive effect on its overall utility e.g. by enhancing reachability of a location.
+\paragraph{Tax}	
+	VAT and other tax are a crucial source of income for the state. A change in the use of transportation has an inherent impact on the overall tax amount. This consideration is particularly important for the development of MPT usage given the high share of tax among the total expenditure for MPT travel while PT travel expenses feature tax only in the form of the standard VAT (8\% for Switzerland). For instance, an agent may switch from MPT to PT mode slightly improving their utility balance. At the same time, the state may register a far more significant decrease of income in their isolated utility balance.
+
+
+\subsubsection{Traffic model simulation data}\label{subsub:simData}\mbox{}\\
+ 
+\vspace{-5ex} In order to approximate the above cost and benefit values, the key data of traveled person distance in PT \& MPT is extracted from the traffic model based on the output of the MATSim simulation, more precisely, based on the final selected plans of the agents. The following considerations are to be made:
+\begin{itemize}
+	\item The calculations are always relative (= ultimately the monetary difference) to the reference case without the infrastructure.
+	\item The MATSim scenario is calibrated for week days. Therefore, the induced utilities by means of travel time gains are cumulated for only 250 days of the year. In contrast, the operating costs are assumed incur on every day of the year. The parameter $x$ in Tab. \ref{tab:timeParameters} accounts for the decreased utility. Note that the simulation output always refers to one single day making the cumulation necessary to get annual values.
+	\item Person travel distance and person travel time are dynamic parameters. While other mode travel (bike/walk) is assumed to increase proportionally to Switzerland's demographic development (\cite{BfsPopGrowth2015X}; Reference Case: gradual decrease in population growth from +1.0~\% to zero growth), PT and MPT travel are assumed to grow according to the prognosis by \cite{ARE2016}. The latter is described by the annual growth factor $g_a$ in decade intervals between 2020 - 2050 (and extrapolated to 2060) and is listed in \ref{tab:annualTrafficGrowth}. Any cost or benefit contribution depending on these two parameters, person travel time \& distance, must be corrected by the overall growth factor $g(t,mode)$ at the time of occurrence e.g. for the year 2035 the total PT travel time gains are expressed as today's travel time gains multiplied by the growth factor $g(2035, PT) =1.155$ as shown below. Note that the effects of non-linearly growing congestion time loss with population growth cannot be considered by this approach as the current congestion time loss (based on the MATSim output of today's agents' plans) is scaled only linearly as a part of the travel time gains or losses. Also, the spatial distribution of population growth and its increased demand for transportation is not considered. Given that growth will occur strongly within the agglomeration of Zurich and that a metro network would enhance accessibility particularly for short-to-medium range travel such as agglomeration, the location-independent assumption can be seen as conservative in attempting to improve the network.
+	
+	\begin{equation}
+		\label{eq:annualTrafficGrowth}
+		g(t,mode)=\prod_{a=2020}^{t} (1+g_a(mode)),
+	\end{equation}
+	for PT in 2035: $g(2035, PT)= (1+0.011)^{2030-2020}\cdot(1+0.007)^{2035-2030} =1.155$
+	
+	
+\end{itemize}
+
+	%---------------------------------------------------------------------
+	\createtable%
+	[H]
+	{Annual traffic growth}%
+	{Estimated annual traffic growth for PT and MPT by decade until 2060}%
+	{\label{tab:annualTrafficGrowth}}%
+	{%
+		\begin{tabular}[c]{l c c c c}
+			\toprule
+			
+			Transport Mode & 2020-2030 & 2030-2040 & 2040-2050 & 2050-2060 \\ \hline
+			$g_a(MPT)$ & 0.7\% p.a. & 0.4\% p.a.& 0.1\% p.a.& -0.2\% p.a.\\
+			$g_a(PT)$ & 1.1\% p.a. & 0.7\% p.a.& 0.3\% p.a.& -0.1\% p.a.\\
+		% 
+		%	Bias / Error     & \multicolumn{2}{c}{Routes Only} &
+	
+			\bottomrule
+		\end{tabular}
+	}%
+	{Swiss Federal Office for Spatial Development ARE, 2016}
+	%---------------------------------------------------------------------
+	
+
+\createtable%
+[H]
+{Required simulation data}%
+{Key data from traffic simulation for utility calculations}%
+{\label{tab:simData}}%
+{%
+	\begin{tabular}{l | L | L}
+	\toprule
+	\centering Simulation parameter & \multicolumn{1}{|c|}{\text{Variable}} & \multicolumn{1}{|c}{\centering \text{Derivation}} \\ \hline
+	$\Delta$MPT person dist. & \Delta D_{\text{pers,MPT}} \text{ [km/a]} & (D_{\text{pers,MPT|metroScen}} - D_{\text{pers,MPT|baseScen}}) \cdot 250 \\
+	$\Delta$PT person dist. & \Delta D_{\text{pers,PT}} \text{ [km/a]} & (D_{\text{pers,PT|metroScen}} - D_{\text{pers,PT|baseScen}}) \cdot 250\\
+	$\Delta$Other person dist. & \Delta D_{\text{pers,Oth}} \text{ [km/a]} & (D_{\text{pers,Other|metroScen}} - D_{\text{pers,Other|baseScen}}) \cdot 250\\
+	$\Delta$Total PT trav. time & \Delta t_{pers,PT} \text{ [h/a]} & (t_{\text{pers,PT|metroScen}} - t_{\text{pers,PT|baseScen}}) \cdot 250\\
+	$\Delta$Total MPT trav. time & \Delta t_{pers,MPT} \text{ [h/a]} & (t_{\text{pers,MPT|metroScen}} - t_{\text{pers,MPT|baseScen}}) \cdot 250\\
+	$\Delta$Total Other trav. time & \Delta t_{pers,Oth} \text{ [h/a]} & (t_{\text{pers,Other|metroScen}} - t_{\text{pers,Other|baseScen}}) \cdot 250\\
+	Metro vehicle distance & D_{veh} \text{ [km/a]} & \sum_{veh}^{} \text{routeLength}\cdot \text{nDailyDepartures}_{veh} \cdot 365 \\
+	\bottomrule
+	\end{tabular}
+}%
+{}
+
+
+\begin{comment}
+\begin{table}[H]
+	\begin{tabular}{l | L | L}
+		\centering Simulation parameter & \multicolumn{1}{|c|}{\text{Variable}} & \multicolumn{1}{|c}{\centering \text{Derivation}} \\ \hline \hline
+		$\Delta$MPT person dist. & \Delta D_{\text{pers,MPT}} \text{ [km/d]} & D_{\text{pers,MPT|metroScenario}} - D_{\text{pers,MPT|baseScenario}} \\
+		$\Delta$PT person dist. & \Delta D_{\text{pers,PT}} \text{ [km/d]} & D_{\text{pers,PT|metroScenario}} - D_{\text{pers,PT|baseScenario}}\\
+		$\Delta$Total PT travel time & \Delta t_{pers,PT} \text{ [s/a]} & t_{\text{pers,PT|metroScenario}} - t_{\text{pers,PT|baseScenario}}\\
+		$\Delta$Total MPT travel time & \Delta t_{pers,MPT} \text{ [s/a]} & t_{\text{pers,MPT|metroScenario}} - t_{\text{pers,MPT|baseScenario}}\\
+		Metro vehicle dist. & D_{veh} \text{ [km/a]} & \sum_{veh}^{} \text{routeLength}\cdot \text{nDailyDepartures}_{veh} \cdot 365 \\ \hline
+	\end{tabular}
+	\captionsetup{justification=centering}
+	\caption{Key data from traffic simulation for utility calculations}
+	\label{tab:simdata}
+\end{table}
+\end{comment}
+
+\subsubsection{Time of investments \& returns (discount factor)}\mbox{}\\
+\vspace{-5ex} 
+
+The lifetime of an infrastructure is generally set to 40 years as per \citet{VSS_Norm_641820_2006Own}. Investments are made dominantly at the beginning, while operation with its cost and returns is usually spread across the lifespan of a project. To account for the fact, that money spent today is valued higher than money spent in the future (after 2020), a precise empirically assessed discount factor, $S$ \citet{VSS_Norm_KNA641821_2006} (defined in Tab. \ref{tab:timeParameters}), is applied to any monetarily expressed (dis-)utility, which is registered in a future year  according to equation \ref{eq:discount}. This way, all utility terms have the same year of reference and can be compared correctly.
+
+\begin{equation}
+	\label{eq:discount}
+	U_{(t=2020)} = U_{(t)}\cdot \left(1-S\right)^{t-2020}
+\end{equation}
+
+After summing up the total utility of all individual years it is divided by the life time $L$ of the infrastructure to express the \textit{average annual utility} $\overline{U}$, which will ultimately be used as the actual fitness value of a network.
+
+\begin{equation}
+	\label{eq:averageAnnualUtility}
+	\overline{U} = \frac{1}{L}\sum_{t=1}^{L} U_{tot(2020+t)}\cdot \left(1-S\right)^{t} \quad = \emph{"Fitness value of a network"}
+\end{equation}
+
+
+\createtable%
+[H]
+{Discount factor and time parameters}%
+{Discount factor and time parameters}%
+{\label{tab:timeParameters}}%
+{%
+	\begin{tabular}{L | L | l}
+		\toprule
+		\text{Variable} & \text{Value} & Description \\ \hline
+		S & 2.0~0\% & Annual discount rate \citet{VSS_Norm_641820_2006Own} \\
+		d & 40~years & general lifetime of an infrastructure project (as per \citet{VSS_Norm_641820_2006Own})\\
+		x & 250~d~p.a. & working days travel equivalent per year (general approximation) \\
+		\bottomrule
+	\end{tabular}
+}%
+{}
+
+
+\subsubsection{Overall utility function}\label{subch:evoUtilityEq}\mbox{}\\
+The above explained cost and benefit parameters are summed up to yield the overall utility function in the form of Eq.\ref{eq:utilityMain1} and the expressions in Tab.\ref{tab:utilCost}/\ref{tab:utilBenefit} . As stated above, \emph{the individual terms are calculated and discounted for each year in which they are of significance before being added up to the overall utility over the life time}. Investment costs for instance generally occur at the beginning of the life time.
+
+\begin{alignat}{2}
+&\text{Overall Utility:   }  &&U_{tot} = B_{tot} - C_{tot}  \label{eq:utilityMain1} \\
+&\text{Total Benefit:     }  &&B_{tot} = B_{time} + B_{ext} + B_{vehOps}  \label{eq:utilityMain2} \\
+&\text{Total Cost:        }  &&C_{tot} = \sum_{i}C_i =  C_{constr} + C_{land} + C_{veh} + C_{ops} + C_{main/rep}  + C_{user} + C_{ext} \label{eq:utilityMain3}
+\end{alignat}
+%\end{equation}
+
+
+\begin{longtable}{L | l}
+
+		\caption {Utility function cost parameters}\label{tab:utilCost}\\ \hline \hline
+		\endfirsthead
+		\caption* {Table \ref{tab:utilCost} Continued }\\
+		\endhead
+		\endfoot
+		\endlastfoot
+		
+%		\hline \hline
+		\rowcolor{lightgray!60}\mathbf{C_{constr}} & Overall construction cost = \\ 
+		  & \multicolumn{1}{p{13cm}}{\raggedright $ C_{statUG}\cdot nStationsUG_{new} + C_{statOG}\cdot nStationsOG_{new} + \newline
+		  	C_{statUGExt}\cdot nStationsUG_{extend} + C_{statOG/Ext}\cdot nStationsOG_{extend} + \newline 
+		  	C_{conUG}\cdot lengthUG_{new} + C_{conUGdev}\cdot lengthUG_{dev} + C_{conUGeq}\cdot lengthUG_{ext} + \newline
+		  	C_{conOG}\cdot lengthOG_{new} + C_{conOGdev}\cdot lengthOG_{dev} + C_{conOGeq}\cdot lengthOG_{ext} $} \\ \hline
+		C_{statUG} & Construction cost of a new UG metro station (double-platform) = 160 Mio CHF\\ 
+		  & \multicolumn{1}{p{13.0cm}}{\raggedright Note that the costs do not include the construction of the actual track (considered separately by the link construction cost), but only the station infrastructure itself. The value is derived from averaging over construction costs of comparable stations in Paris \citet{DRIEA12} and corrected for the PPP ratio between France and Switzerland of 1.5 from \citet{OECD17}. The resulting value refers to the cost of approximately one kilometer of new UG links, which is a reasonable estimate for a UG station as it may be described as two parallel 500 meter long tunnels.}\\ 
+		C_{statUGExt} & \multicolumn{1}{p{13.0cm}}{\raggedright Cost to extend an existing UG metro station by platforms and other infrastructure to match increased capacity demands. This value is generalized as $3/4$ of the construction cost of a new UG station above to be 120 Mio CHF.}\\ 
+		C_{statOG} & Construction cost of a new OG metro station (double-platform) = 55 Mio CHF\\
+		& \multicolumn{1}{p{13.0cm}}{\raggedright Note that the costs do not include the construction of the actual track, which is listed separately, but only the station infrastructure itself. The costs are derived from comparable (double-platform) projects, see \citet{KONOL18}, \citet{SIG17}}\\ 
+		C_{statOGExt} & \multicolumn{1}{p{13.0cm}}{\raggedright Cost to extend an existing OG metro station by platforms and related infrastructure to match increased capacity demands. This value is generalized as $3/4$ of the construction cost of a new OG station above to be 41 Mio CHF.}\\ 
+
+		C_{conUG} & Construction cost of new UG links = 150 Mio CHF/Km\\
+				  & \multicolumn{1}{p{13.0cm}}{\raggedright This value results directly from comparable underground train link construction projects such as those featured in \citet{INFRASUISSE2017}}\\  % or the lately completed Weinberg-Tunnel as a part of Zurich's new "Durchmesser-Linie", which is estimated to have costed 150 Mio CHF/Km.
+		C_{conUGdev} & Extension of existing UG train link (e.g. adjacent tunnel) = 112 Mio CHF/km; \\
+		  & \multicolumn{1}{p{13.0cm}}{\raggedright This value is generalized as $3/4$ of the construction cost of a new UG link above and would come in place for instance for the existing tunnel between Zurich HB - Stadelhofen, whose capacity would have to be extended by means of new parallel tracks and therefore an appropriate expansion of the tunnel. Extending a link is cheaper due to easier access of the construction site and possibilities to use some of the existing infrastructure, e.g. diversion tunnels or power supplies.}\\ 
+		C_{conUGeq} & Equipping existing UG train links for extended metro use = 22.5 Mio CHF/Km\\
+		& Equipment share of new link cost averaged by \citet{FLYV2008} to $\approx15\%$ \\ 
+		C_{conOG} & Construction cost of new OG links = 40 Mio CHF/Km\\
+			& Ceiled cost/km of comparable projects e.g. Bahn 2000, Mattstetten \citet{BAV2004}\\ 
+		C_{conOGdev} & Cost to extend existing OG train link (e.g. adjacent track) = 30 Mio CHF/Km\\
+			& Analogously to UG, this value is generalized by $3/4$ of the cost for OG links. \\ 
+		C_{conOGeq} & Equipping existing OG train links for extended metro use = 6 Mio CHF/Km\\
+		  & Calculated analogously to the UG case. \\ \hline \hline
+		\rowcolor{lightgray!60}\mathbf{C_{land}} & Land cost $=0.01\cdot C_{constr} $\\
+		  & assumption 1\% of $C_{constr}$ (UG land free, hardly any new OG links) \\ \hline
+		%%
+		\rowcolor{lightgray!60}\mathbf{C_{veh}} & Rolling stock cost = $nMetroVehicles \cdot p_{veh}$ \\
+		p_{veh} & \multicolumn{1}{p{13.6cm}}{\raggedright
+			Purchasing cost per vehicle (all vehicles are assumed to have the same price): \newline 
+			The vehicles number, nMetroVehicles, is a function of route length/frequency. \newline
+			The rolling stock is expected to be replaced after 20 years of operation at a discounted investment.
+			The unit cost $p_{veh}$ is derived from comparable stock, see \citet{MetroParis2015}, \citet{LondonTubeSummary2017}, \citet{NZZStadlerKiss2012}, \citet{VBZBombardier2017}, yielding}\\
+		& $p_{veh}$ = 13 Mio CHF/vehicle (8.75 Mio CHF/vehicle if discounted by factor $S$) \\ \hline \hline
+		%%
+		\rowcolor{lightgray!60}\mathbf{C_{ops}} & Operational cost = 20.50 CHF/vehicleKm $\cdot D_{veh}$ \\
+		& \multicolumn{1}{p{13.6cm}}{\raggedright
+			 The operational cost of the metro is derived from comparable systems:\newline
+		 \citet{Boesch18} derive from SBB data 31.40 CHF/vehicleKm for the operation of larger than metro trains and \citet{LU16} refers to CoMET's European average operational cost data of less than 10 CHF/vehicleKm. As Swiss (labor) costs are significantly higher than European average and given that Zurich would feature a relatively small metro network (smaller network has higher cost per km), the operational cost factor is lifted to 20.50 CHF/vehicleKm.\\ 
+		 The operational costs are summed for each year and discounted by eq. \ref{eq:discount}.} \\ \hline
+		%%
+		\rowcolor{lightgray!60}\mathbf{C_{main/rep}} & Maintenance and repair cost\\
+		  & $=1/3\cdot C_{ops}$ generalized from CoMET data in \cite{LU16}\\ \hline
+\end{longtable}
+
+
+\FloatBarrier
+\begin{longtable}{L | l}
+	
+	\caption {Utility function benefit parameters}\label{tab:utilBenefit}\\ \hline \hline
+	\endfirsthead
+	\caption* {Table \ref{tab:utilCost} Continued }\\
+	\endhead
+	\endfoot
+	\endlastfoot
+		
+		\rowcolor{lightgray!60}\mathbf{B_{time}} & \multicolumn{1}{p{14.2cm}}{\raggedright Travel time gains $ = x \cdot (u_{\text{tPT}}\cdot\Delta t_{pers,PT} + u_{\text{tMPT}}\cdot\Delta t_{pers,MPT} + u_{\text{tOther}}\cdot\Delta t_{pers,Other})$}\\
+		u_{\text{timePT}} & Utility of a person's PT travel time savings = 14.43 CHF/h (\cite{VSS_Norm_KNA641821_2006})\\
+		u_{\text{timeMPT}} & Utility of a person's MPT travel time savings = 23.29 CHF/h (\cite{VSS_Norm_KNA641821_2006})\\ 
+		 & \multicolumn{1}{p{14.2cm}}{\raggedright While the utility of time savings for PT is assumed to be stable, the utility of time savings in the MPT mode may be subjected to a decline as with driver-less technology the "driver" can pursue other value bringing activities while traveling as is with PT. However, as this thesis focuses on improving PT network design and therefore car travel time is affected only indirectly, the utility parameters are assumed constant.} \\
+		 u_{\text{timeOther}} & Utility of a person's walk/bike time savings = 33.20 CHF/h (\cite{Becker2017UtilWalkX})\\ \hline \hline
+		%%	
+		\rowcolor{lightgray!60}\mathbf{B_{ext}} & External costs = $B_{ext,PT} + B_{ext,MPT} = x \cdot (e_{\text{p,PT}} \cdot \Delta D_{\text{pers,PT}} + e_{\text{p,MPT}} \cdot \Delta D_{\text{pers,MPT}}) $\\
+		e_{\text{p,PT}} & External cost for one PT person kilometer = 0.032 CHF/personKm (\cite{ARE2015}) \\
+		e_{\text{p,MPT}} & External cost for one MPT person kilometer = 0.077 CHF/personKm (\cite{ARE2015}) \\ \hline
+		\rowcolor{lightgray!60}\mathbf{B_{vehOps}} & Vehicle operating cost savings = $x \cdot \Delta D_{\text{pers,MPT}} \cdot f_{\text{v,car}} /OR$\\ 
+		OR & Average car occupancy rate for MPT = 1.4 people/vehicle (extrapol. \cite{VSS_Norm_KNA641822a_2009x}) \\
+		f_{\text{v,car}} & Averaged operating cost of an MPT vehicle without tax = 0.63 CHF/vehicleKm\\
+		 & \multicolumn{1}{p{13.6cm}}{\raggedright As mentioned above, the tax paid by the private vehicle operator is shifted unchanged from the vehicle operator's pocket directly to the state and is not explicitly considered in the overall cost benefit analysis. Therefore, the tax share has to be subtracted from the generalized vehicle operating costs. According to \cite{TCS18} the generalized vehicle operating costs are 0.70 CHF/vehicleKm, of which 3.1~\% are general tax and 13.4~\% are fuel costs. With the tax percentage of the fuel costs (weight averaged between diesel and gasoline among the figures in \cite{VSS_Norm_KNA641827_2009Own}) to be 55~\%, the overall tax/vehicleKm for MPT yields $0.70\cdot(1-(0.031+0.134\cdot0.55 ))$ = 0.63 CHF/vehicleKm.}\\
+		\hline
+\end{longtable}
+
+\FloatBarrier
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Network Evolution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+add all evolutionary operators here
+keep this section generic, i.e. not limited to Metro 
+
+
+
+
+
+
+
+
+
+
+\clearpage
+
+
+
